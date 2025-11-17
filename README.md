@@ -1,4 +1,6 @@
-# Laravilt Support Package
+![Screenshot](https://raw.githubusercontent.com/laravilt/support/master/arts/cover.jpg)
+
+# Laravilt Support
 
 [![Latest Version](https://img.shields.io/packagist/v/laravilt/support.svg)](https://packagist.org/packages/laravilt/support)
 [![Tests](https://github.com/laravilt/support/actions/workflows/tests.yml/badge.svg)](https://github.com/laravilt/support/actions/workflows/tests.yml)

@@ -50,7 +50,7 @@ class Form extends Component
         $this->spa = $spa;
         $this->data = $data;
         $this->enctype = $enctype;
-        $this->formId = $formId ?? 'laravilt-form-' . uniqid();
+        $this->formId = $formId ?? 'laravilt-form-'.uniqid();
     }
 
     /**

@@ -72,7 +72,7 @@ class Table extends Component
         $this->bordered = $bordered;
         $this->spa = $spa;
         $this->data = $data;
-        $this->tableId = $tableId ?? 'laravilt-table-' . uniqid();
+        $this->tableId = $tableId ?? 'laravilt-table-'.uniqid();
         $this->sortable = $sortable;
         $this->sortBy = $sortBy;
         $this->sortDirection = $sortDirection;
