@@ -1,120 +1,29 @@
-import { createApp } from 'vue';
-import Link from './components/Link.vue';
-import Modal from './components/Modal.vue';
-import ComponentRenderer from './components/ComponentRenderer.vue';
-import { navigate } from './utils/navigate';
-import EventBus from './utils/event-bus';
-
 /**
- * Laravilt Core JavaScript
+ * Laravilt Core
  *
- * Handles SPA navigation, component mounting, and event management.
+ * Complete SPA framework for Laravel applications.
+ * Ported from Splade with full feature parity.
  */
-class LaraviltCore {
-    constructor() {
-        this.app = null;
-        this.eventBus = new EventBus();
-        this.components = new Map();
-    }
 
-    /**
-     * Initialize Laravilt Core.
-     */
-    init() {
-        this.mountComponents();
-        this.initializeNavigation();
-        this.initializeModals();
-    }
+// Core
+export { Laravilt } from "./core/Laravilt.js";
+export { LaraviltProgress } from "./core/LaraviltProgress.js";
+export { default as LaraviltPlugin } from "./core/LaraviltPlugin.js";
+export { default as LaraviltApp } from "./core/LaraviltApp.vue";
 
-    /**
-     * Mount all Laravilt components on the page.
-     */
-    mountComponents() {
-        const elements = document.querySelectorAll('[data-laravilt-component]');
+// Components
+export { default as ComponentRenderer } from "./components/ComponentRenderer.vue";
+export { default as Link } from "./components/Link.vue";
+export { default as Modal } from "./components/Modal.vue";
+export { default as Render } from "./components/Render.vue";
+export { default as ServerError } from "./components/ServerError.vue";
 
-        elements.forEach(element => {
-            const name = element.dataset.laraviltComponent;
-            const props = JSON.parse(element.dataset.laraviltProps || '{}');
-            const key = element.dataset.laraviltKey;
+// Utilities
+export { default as EventBus } from "./utils/event-bus.js";
+export { navigate } from "./utils/navigate.js";
 
-            // Create Vue app instance for this component
-            const app = createApp(ComponentRenderer, {
-                componentName: name,
-                componentProps: props,
-                componentKey: key,
-                innerHTML: element.innerHTML
-            });
+// Mixins
+export { default as componentMixin } from "./mixins/component-mixin.js";
 
-            // Register global components
-            app.component('LaraviltLink', Link);
-            app.component('LaraviltModal', Modal);
-
-            // Mount and store reference
-            app.mount(element);
-            this.components.set(key, app);
-        });
-    }
-
-    /**
-     * Initialize SPA navigation.
-     */
-    initializeNavigation() {
-        // Intercept clicks on Laravilt links
-        document.addEventListener('click', (e) => {
-            const link = e.target.closest('[data-laravilt-link]');
-            if (link) {
-                e.preventDefault();
-                navigate(link.href, link.dataset.laraviltMethod || 'GET');
-            }
-        });
-
-        // Handle browser back/forward
-        window.addEventListener('popstate', (e) => {
-            if (e.state && e.state.laravilt) {
-                navigate(window.location.href, 'GET', false);
-            }
-        });
-    }
-
-    /**
-     * Initialize modal functionality.
-     */
-    initializeModals() {
-        this.eventBus.on('modal:open', (modalName) => {
-            const modal = document.querySelector(`[data-laravilt-modal="${modalName}"]`);
-            if (modal) {
-                modal.setAttribute('data-laravilt-open', 'true');
-            }
-        });
-
-        this.eventBus.on('modal:close', (modalName) => {
-            const modal = document.querySelector(`[data-laravilt-modal="${modalName}"]`);
-            if (modal) {
-                modal.setAttribute('data-laravilt-open', 'false');
-            }
-        });
-    }
-
-    /**
-     * Unmount all components (for cleanup).
-     */
-    unmountAll() {
-        this.components.forEach(app => app.unmount());
-        this.components.clear();
-    }
-}
-
-// Initialize on DOM ready
-document.addEventListener('DOMContentLoaded', () => {
-    window.Laravilt = new LaraviltCore();
-    window.Laravilt.init();
-});
-
-// Export for use as Vue plugin
-export default {
-    install(app) {
-        app.component('LaraviltLink', Link);
-        app.component('LaraviltModal', Modal);
-        app.component('LaraviltComponentRenderer', ComponentRenderer);
-    }
-};
+// Default export is the plugin
+export { default } from "./core/LaraviltPlugin.js";

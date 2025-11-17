@@ -3,6 +3,7 @@
 namespace Laravilt\Support;
 
 use Illuminate\Support\ServiceProvider;
+use Laravilt\Support\Commands\MakeComponentCommand;
 use Laravilt\Support\LaraviltCore\LaraviltServiceProvider;
 
 /**
@@ -40,6 +41,11 @@ class SupportPlugin extends ServiceProvider
         $this->loadTranslationsFrom(__DIR__.'/../resources/lang', 'laravilt-support');
 
         if ($this->app->runningInConsole()) {
+            // Register commands
+            $this->commands([
+                MakeComponentCommand::class,
+            ]);
+
             // Publish config
             $this->publishes([
                 __DIR__.'/../config/laravilt-support.php' => config_path('laravilt-support.php'),

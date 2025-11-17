@@ -5,10 +5,8 @@ namespace Laravilt\Support\LaraviltCore;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\ServiceProvider;
 use Laravilt\Support\LaraviltCore\Blade\Components\Component;
-use Laravilt\Support\LaraviltCore\Blade\Components\Form;
 use Laravilt\Support\LaraviltCore\Blade\Components\Link;
 use Laravilt\Support\LaraviltCore\Blade\Components\Modal;
-use Laravilt\Support\LaraviltCore\Blade\Components\Table;
 
 /**
  * Laravilt Core Service Provider
@@ -27,10 +25,8 @@ class LaraviltServiceProvider extends ServiceProvider
     {
         // Register Blade components
         Blade::component('laravilt-component', Component::class);
-        Blade::component('laravilt-form', Form::class);
         Blade::component('laravilt-link', Link::class);
         Blade::component('laravilt-modal', Modal::class);
-        Blade::component('laravilt-table', Table::class);
 
         // Register custom Blade directives
         $this->registerBladeDirectives();

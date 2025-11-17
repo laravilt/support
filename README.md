@@ -7,18 +7,32 @@
 [![Total Downloads](https://img.shields.io/packagist/dt/laravilt/support.svg)](https://packagist.org/packages/laravilt/support)
 [![License](https://img.shields.io/packagist/l/laravilt/support.svg)](https://packagist.org/packages/laravilt/support)
 
-Foundation package for the Laravilt framework. Provides the base Component class, Laravilt Core SPA functionality, and essential utilities.
+Foundation package for the Laravilt framework. Provides the base Component class, complete SPA infrastructure with Vue 3, and essential utilities for building modern Laravel applications.
 
 ## Features
 
+### Core SPA Infrastructure ✅
+- **🚀 Complete SPA Engine** - Full single-page application framework (Laravilt.js - 814 lines)
+- **⚡ Vue 3 Integration** - Root app component with KeepAlive, modal stack, and error handling
+- **📊 Progress Bar** - NProgress integration with auto-start and upload tracking
+- **🔌 Vue Plugin System** - Easy installation with configurable options
+- **🔄 SPA Navigation** - Navigate without full page reloads with history API support
+- **📦 Modal Stack Management** - Multiple modals, slideovers with backdrop blur
+- **🍞 Toast Notifications** - Built-in toast system for user feedback
+- **💾 State Management** - Remember/restore/forget state persistence
+- **🔄 Lazy Loading & Rehydration** - Optimize component loading strategies
+
+### Component Foundation
 - **🎯 Base Component Class** - Foundation for all Laravilt UI components
 - **🔄 Multi-Platform Serialization** - Serialize to Laravilt (Blade+Vue), REST API, and Flutter
-- **🌐 SPA Navigation** - Built-in single-page application functionality via Laravilt Core
 - **🌍 RTL/LTR Support** - First-class right-to-left language support
 - **🎨 Theme System** - Light/dark mode support
 - **🔧 Utilities** - Dot notation array access, translation helpers, and more
+
+### Developer Experience
 - **🧪 Fully Tested** - 39 tests with 77 assertions
 - **📦 Modern Tooling** - Vite, Vue 3, Tailwind CSS, Pest, PHPStan
+- **🎨 Component Generator** - Artisan command for quick scaffolding
 
 ## Requirements
 
@@ -60,9 +74,21 @@ php artisan vendor:publish --tag="laravilt-support-translations"
 
 ## Quick Start
 
-### 1. Creating a Custom Component
+### 1. Generate a Component
 
-Extend the base `Component` class to create your own components:
+Use the Artisan command to quickly scaffold a new component:
+
+```bash
+php artisan laravilt:component Alert
+```
+
+This creates:
+- `app/Components/Alert.php` - Component class
+- `resources/views/components/alert.blade.php` - View template
+
+### 2. Creating a Custom Component
+
+Extend the base `Component` class to create your own components (or use the generator):
 
 ```php
 <?php
@@ -302,48 +328,280 @@ $rtlLocales = Translator::getRTLLocales(); // ['ar', 'he', 'fa', 'ur', ...]
 Translator::addRTLLocale('custom');
 ```
 
+## Artisan Commands
+
+### Generate Component
+
+Quickly scaffold a new Laravilt component:
+
+```bash
+php artisan laravilt:component Alert
+```
+
+This creates:
+- `app/Components/Alert.php` - Component class extending `Laravilt\Support\Component`
+- `resources/views/components/alert.blade.php` - Blade view template
+
+**Options:**
+- `--force` - Overwrite existing files
+
+**Example:**
+```bash
+php artisan laravilt:component UserProfile --force
+```
+
+For more details, see [Component Generator Documentation](docs/component-generator.md).
+
 ## Laravilt Core (SPA)
 
-Laravilt Core provides single-page application functionality:
+Laravilt Core is a complete SPA framework providing powerful features for building modern single-page applications with Laravel and Vue 3.
 
-### Features
+### Core Engine (Laravilt.js)
 
-- **SPA Navigation** - Navigate without full page reloads
-- **Component Mounting** - Automatic Vue component initialization
-- **Event Bus** - Inter-component communication
-- **History API** - Browser back/forward support
-- **Modal Management** - Open/close modals programmatically
+The Laravilt.js engine (814 lines) provides 30+ API methods:
 
-### JavaScript Usage
-
+**Navigation & Page Management**
 ```javascript
-// Programmatic navigation
-window.Laravilt.navigate('/dashboard', 'GET');
+// Navigate to a new page
+Laravilt.visit('/dashboard', { method: 'GET', data: {} });
 
-// Event bus
-window.Laravilt.eventBus.on('user:updated', (user) => {
+// Replace current page without history entry
+Laravilt.replace('/users', { method: 'GET', preserveScroll: true });
+
+// Refresh current page
+Laravilt.refresh({ preserveScroll: true });
+
+// Replace URL without reload
+Laravilt.replaceUrlOfCurrentPage('/users?page=2');
+```
+
+**Modal & Slideover Stack**
+```javascript
+// Open modal
+Laravilt.modal('/users/create');
+
+// Open slideover
+Laravilt.slideover('/notifications', { position: 'right' });
+
+// Access modal stack
+console.log(Laravilt.currentStack.value); // ['modal-1', 'modal-2']
+```
+
+**Toast Notifications**
+```javascript
+// Push toast
+Laravilt.pushToast({
+    message: 'User created successfully',
+    type: 'success',
+    dismissible: true,
+});
+
+// Dismiss toast
+Laravilt.dismissToast('toast-id');
+
+// Access toasts
+console.log(Laravilt.toasts.value);
+console.log(Laravilt.toastsReversed.value);
+```
+
+**State Management**
+```javascript
+// Remember state (persists across navigation)
+Laravilt.remember('form-data', { name: 'John', email: 'john@example.com' });
+
+// Restore state
+const formData = Laravilt.restore('form-data');
+
+// Forget state
+Laravilt.forget('form-data');
+```
+
+**Lazy Loading & Rehydration**
+```javascript
+// Lazy load component
+Laravilt.lazy('/components/chart', '#chart-container');
+
+// Rehydrate component
+Laravilt.rehydrate('/components/table', '#table-container');
+
+// Get dynamic component HTML
+const html = Laravilt.htmlForDynamicComponent('my-component');
+```
+
+**Confirm Dialogs**
+```javascript
+// Show confirm modal
+Laravilt.confirm({
+    title: 'Delete User',
+    message: 'Are you sure?',
+    confirmButton: 'Delete',
+    cancelButton: 'Cancel',
+    onConfirm: () => { /* delete logic */ },
+});
+
+// Clear confirm modal
+Laravilt.clearConfirmModal();
+
+// Access confirm state
+console.log(Laravilt.confirmModal.value);
+```
+
+**Event System**
+```javascript
+// Register event listener
+Laravilt.on('user:updated', (user) => {
     console.log('User updated:', user);
 });
 
-window.Laravilt.eventBus.emit('user:updated', { id: 1, name: 'John' });
+// Emit event
+Laravilt.emit('user:updated', { id: 1, name: 'John' });
 
-// Modal control
-window.Laravilt.eventBus.emit('modal:open', 'confirm-delete');
-window.Laravilt.eventBus.emit('modal:close', 'confirm-delete');
+// Remove listener
+Laravilt.off('user:updated', callback);
 ```
 
-### Vue Plugin
+**Data Access**
+```javascript
+// Access shared data from server
+const config = Laravilt.sharedData.value;
 
-Use Laravilt Core as a Vue plugin:
+// Access flash data
+const message = Laravilt.flashData.value;
+
+// Validation errors
+if (Laravilt.hasValidationErrors.value) {
+    const errors = Laravilt.validationErrors.value;
+}
+```
+
+**File Downloads**
+```javascript
+// Download file from blob
+Laravilt.downloadFromBlob(blob, 'report.pdf');
+
+// Download from URL
+Laravilt.downloadFromURL('/export/users', 'users.xlsx');
+```
+
+### Vue 3 Integration
+
+Install as a Vue plugin with full configuration:
 
 ```javascript
 import { createApp } from 'vue';
-import LaraviltCore from '@laravilt/support';
+import LaraviltPlugin from '@laravilt/support';
+import LaraviltApp from '@laravilt/support/LaraviltApp';
 
-const app = createApp({});
-app.use(LaraviltCore);
+const app = createApp(LaraviltApp);
+
+app.use(LaraviltPlugin, {
+    // Maximum KeepAlive components (default: 10)
+    max_keep_alive: 10,
+
+    // Component prefix (default: 'Laravilt')
+    prefix: 'Laravilt',
+
+    // Transform regular anchors to SPA links (default: false)
+    transform_anchors: false,
+
+    // Link component name (default: 'Link')
+    link_component: 'Link',
+
+    // Progress bar configuration
+    progress_bar: {
+        delay: 250,        // Delay before showing (ms)
+        color: '#4B5563',  // Progress bar color
+        css: true,         // Inject default CSS
+        spinner: false,    // Show spinner
+    },
+
+    // View transitions API (default: false)
+    view_transitions: true,
+
+    // Suppress Vue compiler errors (default: false)
+    suppress_compile_errors: false,
+
+    // Register custom components
+    components: {
+        'MyCustomComponent': MyComponent,
+    },
+});
+
 app.mount('#app');
 ```
+
+### Progress Bar
+
+Automatic progress indication with NProgress:
+
+```javascript
+import { LaraviltProgress } from '@laravilt/support';
+
+// Initialize manually
+LaraviltProgress.init({
+    delay: 250,
+    color: '#4B5563',
+    css: true,
+    spinner: false,
+});
+
+// Automatically tracks:
+// - laravilt:internal:request
+// - laravilt:internal:request-progress
+// - laravilt:internal:request-response
+// - laravilt:internal:request-error
+```
+
+### Vue Components
+
+**LaraviltApp.vue** - Root application component
+- KeepAlive page caching with configurable max
+- Modal stack rendering with backdrop blur
+- Server error overlay with iframe
+- Meta tag management
+- View Transitions API support
+
+**Link.vue** - SPA navigation link
+**Modal.vue** - Modal/slideover component
+**Render.vue** - Dynamic HTML renderer
+**ComponentRenderer.vue** - Component renderer
+**ServerError.vue** - Error overlay display
+
+### SSR Support
+
+Laravilt Core fully supports server-side rendering:
+
+```javascript
+// Detect SSR mode
+if (Laravilt.isSsr) {
+    // Skip client-only logic
+}
+```
+
+### Events Reference
+
+**Internal Events** (auto-emitted by framework):
+- `laravilt:internal:request` - Request started
+- `laravilt:internal:request-progress` - Upload/download progress
+- `laravilt:internal:request-response` - Request completed
+- `laravilt:internal:request-error` - Request failed
+
+**Public Events** (for your app):
+- `laravilt:navigated` - Page navigation completed
+- `laravilt:modal:opened` - Modal opened
+- `laravilt:modal:closed` - Modal closed
+- `laravilt:toast:pushed` - Toast added
+- `laravilt:toast:dismissed` - Toast removed
+
+### Best Practices
+
+1. **Use the provided Link component** for navigation
+2. **Leverage state management** for forms and filters
+3. **Clean up event listeners** in component unmount
+4. **Use lazy loading** for heavy components
+5. **Configure KeepAlive wisely** based on your app's needs
+
+For detailed documentation, see [Laravilt Core Documentation](docs/laravilt-core.md).
 
 ## Translations
 
