@@ -1,6 +1,6 @@
 <?php
 
-use Laravilt\Support\SupportPlugin;
+use Laravilt\Support\SupportServiceProvider;
 use Orchestra\Testbench\TestCase;
 
 uses(TestCase::class)->in('Feature', 'Unit');
@@ -8,5 +8,5 @@ uses(TestCase::class)->in('Feature', 'Unit');
 // Boot Laravel application
 function getPackageProviders($app)
 {
-    return [SupportPlugin::class];
+    return [SupportServiceProvider::class];
 }

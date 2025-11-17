@@ -65,7 +65,7 @@
     "extra": {
         "laravel": {
             "providers": [
-                "Laravilt\\Support\\SupportPlugin"
+                "Laravilt\\Support\\SupportServiceProvider"
             ]
         }
     },

@@ -12,7 +12,7 @@ use Laravilt\Support\LaraviltCore\LaraviltServiceProvider;
  * Foundation service provider for Laravilt framework.
  * Registers base Component class, Laravilt Core, and utilities.
  */
-class SupportPlugin extends ServiceProvider
+class SupportServiceProvider extends ServiceProvider
 {
     /**
      * Register services.
