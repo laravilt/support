@@ -1,0 +1,60 @@
+<?php
+
+return [
+    'common' => [
+        'save' => 'Save',
+        'cancel' => 'Cancel',
+        'delete' => 'Delete',
+        'edit' => 'Edit',
+        'create' => 'Create',
+        'update' => 'Update',
+        'search' => 'Search',
+        'filter' => 'Filter',
+        'clear' => 'Clear',
+        'apply' => 'Apply',
+        'close' => 'Close',
+        'open' => 'Open',
+        'submit' => 'Submit',
+        'reset' => 'Reset',
+        'back' => 'Back',
+        'next' => 'Next',
+        'previous' => 'Previous',
+        'finish' => 'Finish',
+        'loading' => 'Loading...',
+        'success' => 'Success!',
+        'error' => 'Error!',
+        'warning' => 'Warning!',
+        'info' => 'Info',
+    ],
+
+    'actions' => [
+        'view' => 'View',
+        'edit' => 'Edit',
+        'delete' => 'Delete',
+        'restore' => 'Restore',
+        'export' => 'Export',
+        'import' => 'Import',
+        'download' => 'Download',
+        'upload' => 'Upload',
+    ],
+
+    'labels' => [
+        'name' => 'Name',
+        'email' => 'Email',
+        'password' => 'Password',
+        'remember_me' => 'Remember Me',
+        'forgot_password' => 'Forgot Password?',
+        'login' => 'Login',
+        'logout' => 'Logout',
+        'register' => 'Register',
+    ],
+
+    'messages' => [
+        'created' => 'Created successfully.',
+        'updated' => 'Updated successfully.',
+        'deleted' => 'Deleted successfully.',
+        'restored' => 'Restored successfully.',
+        'no_results' => 'No results found.',
+        'confirm_delete' => 'Are you sure you want to delete this item?',
+    ],
+];

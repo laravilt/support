@@ -1,0 +1,10 @@
+/node_modules
+/dist
+/vendor
+/build
+composer.lock
+package-lock.json
+.env
+.DS_Store
+.idea
+.vscode
