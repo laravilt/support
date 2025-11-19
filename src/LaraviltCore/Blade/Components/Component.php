@@ -19,6 +19,9 @@ class Component extends BladeComponent
 
     public function render()
     {
-        return view('laravilt-support::laravilt-core.components.component');
+        return view('laravilt-support::laravilt-core.components.component', [
+            'name' => $this->name,
+            'data' => $this->data,
+        ]);
     }
 }

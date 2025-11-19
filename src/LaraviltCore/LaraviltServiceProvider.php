@@ -7,6 +7,7 @@ use Illuminate\Support\ServiceProvider;
 use Laravilt\Support\LaraviltCore\Blade\Components\Component;
 use Laravilt\Support\LaraviltCore\Blade\Components\Link;
 use Laravilt\Support\LaraviltCore\Blade\Components\Modal;
+use Laravilt\Support\LaraviltCore\Blade\Components\VueComponent;
 
 /**
  * Laravilt Core Service Provider
@@ -25,6 +26,7 @@ class LaraviltServiceProvider extends ServiceProvider
     {
         // Register Blade components
         Blade::component('laravilt-component', Component::class);
+        Blade::component('laravilt-vue-component', VueComponent::class);
         Blade::component('laravilt-link', Link::class);
         Blade::component('laravilt-modal', Modal::class);
 

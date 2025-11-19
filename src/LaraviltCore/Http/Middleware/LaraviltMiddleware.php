@@ -37,8 +37,19 @@ class LaraviltMiddleware
 
             return response()->json([
                 'html' => $content,
-                'title' => $this->extractTitle($content),
-                'laravilt' => true,
+                'dynamics' => [],
+                'laravilt' => [
+                    'head' => [
+                        'title' => $this->extractTitle($content),
+                    ],
+                    'shared' => [],
+                    'flash' => [],
+                    'errors' => session()->get('errors', new \Illuminate\Support\MessageBag())->toArray(),
+                    'toasts' => [],
+                    'persistentLayout' => null,
+                    'modal' => false,
+                    'preventRefresh' => false,
+                ],
             ]);
         }
 

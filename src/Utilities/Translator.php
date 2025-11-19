@@ -27,7 +27,15 @@ class Translator
      */
     public static function isRTL(?string $locale = null): bool
     {
-        $locale = $locale ?? app()->getLocale();
+        if ($locale === null) {
+            // Try to get locale from app, fallback to 'en' if not available
+            $app = app();
+            if (method_exists($app, 'getLocale')) {
+                $locale = $app->getLocale();
+            } else {
+                $locale = 'en';
+            }
+        }
 
         return in_array($locale, static::$rtlLocales);
     }

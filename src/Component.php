@@ -108,6 +108,7 @@ abstract class Component implements Arrayable, Buildable, Jsonable, Serializable
     public function toLaraviltProps(): array
     {
         return [
+            'component' => $this->getComponentType(),
             'id' => $this->getId(),
             'name' => $this->getName(),
             'state' => $this->getState(),
@@ -117,9 +118,20 @@ abstract class Component implements Arrayable, Buildable, Jsonable, Serializable
             'columnSpan' => $this->getColumnSpan(),
             'rtl' => $this->isRTL(),
             'theme' => $this->getTheme(),
-            'locale' => app()->getLocale(),
+            'locale' => $this->getLocale(),
             'meta' => $this->getMeta(),
         ];
+    }
+
+    /**
+     * Get the component type for Vue.js (snake_case class basename).
+     */
+    protected function getComponentType(): string
+    {
+        $className = class_basename(static::class);
+
+        // Convert PascalCase to snake_case (e.g., "TextInput" => "text_input")
+        return strtolower(preg_replace('/(?<!^)[A-Z]/', '_$0', $className));
     }
 
     /**
@@ -173,10 +185,25 @@ abstract class Component implements Arrayable, Buildable, Jsonable, Serializable
         return \Laravilt\Support\Utilities\Translator::isRTL();
     }
 
+    /** Get current locale. */
+    protected function getLocale(): string
+    {
+        $app = app();
+        if (method_exists($app, 'getLocale')) {
+            return $app->getLocale();
+        }
+
+        return 'en';
+    }
+
     /** Get current theme. */
     protected function getTheme(): string
     {
-        return session('theme', 'light');
+        try {
+            return session('theme', 'light');
+        } catch (\Exception $e) {
+            return 'light';
+        }
     }
 
     /** Convert component to array (for JSON serialization). */
