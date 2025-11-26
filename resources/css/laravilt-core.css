@@ -1,0 +1,76 @@
+/**
+ * Laravilt Core CSS
+ *
+ * Base styles for Laravilt components and layout system.
+ */
+
+/* Reset & Base */
+* {
+    box-sizing: border-box;
+}
+
+/* RTL Support */
+[dir="rtl"] {
+    direction: rtl;
+    text-align: right;
+}
+
+[dir="ltr"] {
+    direction: ltr;
+    text-align: left;
+}
+
+/* Theme Support */
+.dark {
+    color-scheme: dark;
+}
+
+.light {
+    color-scheme: light;
+}
+
+/* Laravilt Component Container */
+[data-laravilt-component] {
+    display: block;
+}
+
+/* Laravilt Link */
+[data-laravilt-link] {
+    cursor: pointer;
+    text-decoration: none;
+    transition: all 0.2s;
+}
+
+[data-laravilt-link]:hover {
+    opacity: 0.8;
+}
+
+/* Loading State */
+.laravilt-loading {
+    opacity: 0.6;
+    pointer-events: none;
+}
+
+/* Transitions */
+.laravilt-fade-enter-active,
+.laravilt-fade-leave-active {
+    transition: opacity 0.3s;
+}
+
+.laravilt-fade-enter-from,
+.laravilt-fade-leave-to {
+    opacity: 0;
+}
+
+/* Accessibility */
+.laravilt-sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border-width: 0;
+}
