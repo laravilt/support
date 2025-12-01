@@ -28,6 +28,6 @@ trait HasPlaceholder
      */
     public function getPlaceholder(): ?string
     {
-        return $this->evaluate($this->placeholder);
+        return $this->evaluate($this->placeholder) ?? '—';
     }
 }

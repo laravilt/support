@@ -9,7 +9,7 @@ namespace Laravilt\Support\Concerns;
  */
 trait InteractsWithState
 {
-    protected mixed $state = null;
+    public mixed $state = null;
 
     protected mixed $defaultState = null;
 
