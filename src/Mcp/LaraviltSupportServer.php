@@ -9,6 +9,7 @@ use Laravilt\Support\Mcp\Tools\SearchDocsTool;
 class LaraviltSupportServer extends Server
 {
     protected string $name = 'Laravilt Support';
+
     protected string $version = '1.0.0';
 
     protected string $instructions = <<<'MARKDOWN'
