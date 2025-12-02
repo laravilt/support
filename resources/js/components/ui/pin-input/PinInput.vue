@@ -5,10 +5,10 @@ import { reactiveOmit } from "@vueuse/core"
 import { PinInputRoot, useForwardPropsEmits } from "reka-ui"
 import { cn } from "@/lib/utils"
 
-const props = withDefaults(defineProps<PinInputRootProps<Type> & { class?: HTMLAttributes["class"] }>(), {
+const props = withDefaults(defineProps</* @vue-ignore */ PinInputRootProps<Type> & { class?: HTMLAttributes["class"] }>(), {
   modelValue: () => [],
 })
-const emits = defineEmits<PinInputRootEmits<Type>>()
+const emits = defineEmits</* @vue-ignore */ PinInputRootEmits<Type>>()
 
 const delegatedProps = reactiveOmit(props, "class")
 

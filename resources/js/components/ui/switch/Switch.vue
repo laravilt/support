@@ -9,9 +9,9 @@ import {
 } from "reka-ui"
 import { cn } from "@/lib/utils"
 
-const props = defineProps<SwitchRootProps & { class?: HTMLAttributes["class"] }>()
+const props = defineProps</* @vue-ignore */ SwitchRootProps & { class?: HTMLAttributes["class"] }>()
 
-const emits = defineEmits<SwitchRootEmits>()
+const emits = defineEmits</* @vue-ignore */ SwitchRootEmits>()
 
 const delegatedProps = reactiveOmit(props, "class")
 

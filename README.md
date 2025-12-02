@@ -1,4 +1,4 @@
-![Support](./arts/screenshot.jpg)
+![support](https://raw.githubusercontent.com/laravilt/support/master/arts/screenshot.jpg)
 
 # Laravilt Support
 
