@@ -1,14 +1,57 @@
 {
-    "name": "{{ package }}",
+    "name": "@laravilt/support",
     "version": "1.0.0",
-    "private": true,
+    "description": "Foundation package providing base components, utilities, and contracts for all Laravilt packages. Build custom components with reusable utilities and composables.",
+    "author": "Fady Mondy <info@3x1.io>",
+    "license": "MIT",
     "type": "module",
+    "main": "./dist/support.umd.js",
+    "module": "./dist/support.es.js",
+    "types": "./dist/index.d.ts",
+    "exports": {
+        ".": {
+            "types": "./dist/index.d.ts",
+            "import": "./dist/support.es.js",
+            "require": "./dist/support.umd.js"
+        },
+        "./style.css": "./dist/style.css"
+    },
+    "files": [
+        "dist",
+        "resources"
+    ],
+    "keywords": [
+        "laravilt",
+        "support",
+        "utilities",
+        "vue",
+        "vue3",
+        "base",
+        "foundation",
+        "composables",
+        "inertia",
+        "laravel"
+    ],
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/laravilt/support"
+    },
+    "bugs": {
+        "url": "https://github.com/laravilt/support/issues"
+    },
+    "homepage": "https://laravilt.dev/support",
     "scripts": {
         "dev": "vite",
         "build": "vite build",
+        "build:types": "vue-tsc --declaration --emitDeclarationOnly --outDir dist resources/js/laravilt-core.js || true",
+        "build:npm": "npm run build",
+        "prepublishOnly": "npm run build:npm",
         "format": "prettier --write resources/",
         "format:check": "prettier --check resources/",
         "lint": "eslint . --fix"
+    },
+    "peerDependencies": {
+        "vue": "^3.3.0"
     },
     "devDependencies": {
         "@eslint/js": "^9.19.0",
@@ -25,19 +68,15 @@
         "typescript": "^5.2.2",
         "typescript-eslint": "^8.23.0",
         "vite": "^7.0.4",
+        "vue": "^3.5.13",
         "vue-tsc": "^2.2.4"
     },
     "dependencies": {
-        "laravel-vite-plugin": "^2.0.0",
-        "tailwindcss": "^4.1.1",
-        "vue": "^3.5.13"
-    },
-    "optionalDependencies": {
-        "@rollup/rollup-linux-x64-gnu": "4.9.5",
-        "@rollup/rollup-win32-x64-msvc": "4.9.5",
-        "@tailwindcss/oxide-linux-x64-gnu": "^4.0.1",
-        "@tailwindcss/oxide-win32-x64-msvc": "^4.0.1",
-        "lightningcss-linux-x64-gnu": "^1.29.1",
-        "lightningcss-win32-x64-msvc": "^1.29.1"
+        "@laravilt/support": "file:laravilt-support-1.0.0.tgz",
+        "axios": "^1.7.2",
+        "lodash-es": "^4.17.21",
+        "lucide-vue-next": "^0.468.0",
+        "nprogress": "^0.2.0",
+        "tailwindcss": "^4.1.1"
     }
 }
