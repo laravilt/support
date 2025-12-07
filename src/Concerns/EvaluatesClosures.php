@@ -76,6 +76,12 @@ trait EvaluatesClosures
                         // Let Laravel resolve other types
                         $closureParams[] = app()->make($typeName);
                     }
+                } elseif ($paramName === 'get') {
+                    // Name-based injection for $get parameter (Filament-style)
+                    $closureParams[] = $get;
+                } elseif ($paramName === 'set') {
+                    // Name-based injection for $set parameter (Filament-style)
+                    $closureParams[] = $set;
                 } elseif ($paramName === 'data') {
                     $closureParams[] = $this->evaluationData;
                 } elseif ($paramName === 'record') {
