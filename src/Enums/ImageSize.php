@@ -31,6 +31,6 @@ enum ImageSize: string
      */
     public function getCssSize(): string
     {
-        return $this->getSize() . 'px';
+        return $this->getSize().'px';
     }
 }
