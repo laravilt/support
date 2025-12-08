@@ -1,6 +1,6 @@
 {
     "name": "@laravilt/support",
-    "version": "1.0.2",
+    "version": "1.0.3",
     "description": "Foundation package providing base components, utilities, and contracts for all Laravilt packages. Build custom components with reusable utilities and composables.",
     "author": "Fady Mondy <info@3x1.io>",
     "license": "MIT",
