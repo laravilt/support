@@ -4,6 +4,19 @@ namespace Laravilt\Support\Colors;
 
 class Color
 {
+    // Semantic colors
+    public const Primary = '#3b82f6';    // Blue
+
+    public const Secondary = '#6b7280';  // Gray
+
+    public const Success = '#10b981';    // Green/Emerald
+
+    public const Danger = '#ef4444';     // Red
+
+    public const Warning = '#f59e0b';    // Amber/Yellow
+
+    public const Info = '#0ea5e9';       // Sky/Baby blue
+
     // Primary colors
     public const Slate = '#64748b';
 
@@ -55,6 +68,14 @@ class Color
     public static function all(): array
     {
         return [
+            // Semantic colors
+            'primary' => self::Primary,
+            'secondary' => self::Secondary,
+            'success' => self::Success,
+            'danger' => self::Danger,
+            'warning' => self::Warning,
+            'info' => self::Info,
+            // Tailwind colors
             'slate' => self::Slate,
             'gray' => self::Gray,
             'zinc' => self::Zinc,
@@ -77,6 +98,21 @@ class Color
             'fuchsia' => self::Fuchsia,
             'pink' => self::Pink,
             'rose' => self::Rose,
+        ];
+    }
+
+    /**
+     * Get semantic colors only.
+     */
+    public static function semantic(): array
+    {
+        return [
+            'primary' => self::Primary,
+            'secondary' => self::Secondary,
+            'success' => self::Success,
+            'danger' => self::Danger,
+            'warning' => self::Warning,
+            'info' => self::Info,
         ];
     }
 }

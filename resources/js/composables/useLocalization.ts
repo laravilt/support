@@ -16,9 +16,17 @@ interface Translations {
 let translationsCache: Record<string, Translations> = {};
 
 /**
- * Get nested value from object using dot notation
+ * Get value from translations object.
+ * First tries direct key lookup (for flattened keys like 'laravilt-auth::auth.login.title'),
+ * then falls back to nested object traversal using dot notation.
  */
 function getNestedValue(obj: Translations, path: string): string | undefined {
+    // First, try direct key lookup (for flattened translations)
+    if (path in obj && typeof obj[path] === 'string') {
+        return obj[path] as string;
+    }
+
+    // Fall back to nested object traversal
     const keys = path.split('.');
     let current: string | Translations = obj;
 

@@ -13,9 +13,22 @@ export const badgeVariants = cva(
         secondary:
           "border-transparent bg-secondary text-secondary-foreground [a&]:hover:bg-secondary/90",
         destructive:
-         "border-transparent bg-destructive text-white [a&]:hover:bg-destructive/90 focus-visible:ring-destructive/20 dark:focus-visible:ring-destructive/40 dark:bg-destructive/60",
+          "border-transparent bg-destructive text-white [a&]:hover:bg-destructive/90 focus-visible:ring-destructive/20 dark:focus-visible:ring-destructive/40 dark:bg-destructive/60",
         outline:
           "text-foreground [a&]:hover:bg-accent [a&]:hover:text-accent-foreground",
+        // Semantic colors
+        primary:
+          "border-transparent bg-blue-500 text-white [a&]:hover:bg-blue-600",
+        success:
+          "border-transparent bg-emerald-500 text-white [a&]:hover:bg-emerald-600",
+        danger:
+          "border-transparent bg-red-500 text-white [a&]:hover:bg-red-600",
+        warning:
+          "border-transparent bg-amber-500 text-white [a&]:hover:bg-amber-600",
+        info:
+          "border-transparent bg-sky-500 text-white [a&]:hover:bg-sky-600",
+        gray:
+          "border-transparent bg-gray-500 text-white [a&]:hover:bg-gray-600",
       },
     },
     defaultVariants: {

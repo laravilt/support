@@ -16,6 +16,7 @@ const forwardedProps = useForwardProps(delegatedProps)
   <PinInputInput
     data-slot="pin-input-slot"
     v-bind="forwardedProps"
-    :class="cn('border-input focus:border-ring focus:ring-ring/50 focus:aria-invalid:ring-destructive/20 dark:bg-input/30 dark:focus:aria-invalid:ring-destructive/40 aria-invalid:border-destructive focus:aria-invalid:border-destructive relative flex h-9 w-9 items-center justify-center border-y border-r text-sm shadow-xs transition-all outline-none text-center first:rounded-l-md first:border-l last:rounded-r-md focus:z-10 focus:ring-[3px]', props.class)"
+    :class="cn('border-input focus:border-ring focus:ring-ring/50 focus:aria-invalid:ring-destructive/20 dark:bg-input/30 dark:focus:aria-invalid:ring-destructive/40 aria-invalid:border-destructive focus:aria-invalid:border-destructive relative h-9 w-9 border-y border-e text-sm shadow-xs transition-all outline-none first:rounded-s-md first:border-s last:rounded-e-md focus:z-10 focus:ring-[3px]', props.class)"
+    style="text-align: center; direction: ltr; padding: 0; line-height: 36px;"
   />
 </template>
