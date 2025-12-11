@@ -25,5 +25,8 @@ export { navigate } from "./utils/navigate.js";
 // Mixins
 export { default as componentMixin } from "./mixins/component-mixin.js";
 
+// Composables
+export { useLocalization, trans, __, setTranslations } from "./composables/index.ts";
+
 // Default export is the plugin
 export { default } from "./core/LaraviltPlugin.js";

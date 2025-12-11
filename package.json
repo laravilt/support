@@ -14,6 +14,11 @@
             "import": "./dist/support.es.js",
             "require": "./dist/support.umd.js"
         },
+        "./composables": {
+            "types": "./dist/index.d.ts",
+            "import": "./dist/support.es.js",
+            "require": "./dist/support.umd.js"
+        },
         "./style.css": "./dist/style.css"
     },
     "files": [
