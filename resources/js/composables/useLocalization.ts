@@ -56,7 +56,8 @@ export function useLocalization() {
     const page = usePage();
 
     const localization = computed<Localization>(() => {
-        return (page.props as any).localization ?? {
+        const props = page.props || {};
+        return (props as any).localization ?? {
             locale: 'en',
             timezone: 'UTC',
             direction: 'ltr',
@@ -81,7 +82,8 @@ export function useLocalization() {
      * Get translations for the current locale
      */
     const translations = computed<Translations>(() => {
-        return (page.props as any).translations ?? translationsCache[locale.value] ?? {};
+        const props = page.props || {};
+        return (props as any).translations ?? translationsCache[locale.value] ?? {};
     });
 
     /**
