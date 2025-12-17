@@ -1,7 +1,7 @@
 {
     "name": "laravilt/support",
     "description": "Foundation package providing base components, utilities, and contracts for all Laravilt packages. Build custom components with 13+ reusable traits, Get/Set utilities, and multi-platform serialization support.",
-    "version": "1.0.1",
+    "version": "1.0.2",
     "type": "library",
     "license": "MIT",
     "keywords": [
