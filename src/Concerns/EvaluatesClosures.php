@@ -72,9 +72,30 @@ trait EvaluatesClosures
                         $closureParams[] = $get;
                     } elseif ($typeName === Set::class) {
                         $closureParams[] = $set;
+                    } elseif ($typeName === Closure::class) {
+                        // Closures cannot be resolved by the container
+                        // But if the name is $get or $set, use our utilities (they're callable)
+                        if ($paramName === 'get') {
+                            $closureParams[] = $get;
+                        } elseif ($paramName === 'set') {
+                            $closureParams[] = $set;
+                        } elseif ($param->isDefaultValueAvailable()) {
+                            $closureParams[] = $param->getDefaultValue();
+                        } else {
+                            $closureParams[] = null;
+                        }
                     } else {
                         // Let Laravel resolve other types
-                        $closureParams[] = app()->make($typeName);
+                        try {
+                            $closureParams[] = app()->make($typeName);
+                        } catch (\Throwable $e) {
+                            // If container cannot resolve, use default or null
+                            if ($param->isDefaultValueAvailable()) {
+                                $closureParams[] = $param->getDefaultValue();
+                            } else {
+                                $closureParams[] = null;
+                            }
+                        }
                     }
                 } elseif ($paramName === 'get') {
                     // Name-based injection for $get parameter (Filament-style)

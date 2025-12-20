@@ -122,6 +122,7 @@ abstract class Component implements Arrayable, Buildable, Jsonable, Serializable
             'readonly' => $this->isReadonly(),
             'required' => $this->isRequired(),
             'columnSpan' => $this->getColumnSpan(),
+            'columnStart' => $this->getColumnStart(),
             'rtl' => $this->isRTL(),
             'theme' => $this->getTheme(),
             'locale' => $this->getLocale(),
