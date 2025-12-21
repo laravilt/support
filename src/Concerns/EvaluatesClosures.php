@@ -25,14 +25,46 @@ trait EvaluatesClosures
     protected mixed $evaluationRecord = null;
 
     /**
+     * Current operation (create, edit, view).
+     */
+    protected ?string $evaluationOperation = null;
+
+    /**
      * Set the evaluation context for closures.
      */
-    public function evaluationContext(array $data = [], mixed $record = null): static
+    public function evaluationContext(array $data = [], mixed $record = null, ?string $operation = null): static
     {
         $this->evaluationData = $data;
         $this->evaluationRecord = $record;
+        $this->evaluationOperation = $operation;
 
         return $this;
+    }
+
+    /**
+     * Set the current operation.
+     */
+    public function operation(?string $operation): static
+    {
+        $this->evaluationOperation = $operation;
+
+        return $this;
+    }
+
+    /**
+     * Get the current operation.
+     */
+    public function getOperation(): ?string
+    {
+        return $this->evaluationOperation;
+    }
+
+    /**
+     * Get the evaluation record (used by closures for record access).
+     */
+    public function getEvaluationRecord(): mixed
+    {
+        return $this->evaluationRecord;
     }
 
     /**
@@ -107,6 +139,11 @@ trait EvaluatesClosures
                     $closureParams[] = $this->evaluationData;
                 } elseif ($paramName === 'record') {
                     $closureParams[] = $this->evaluationRecord;
+                } elseif ($paramName === 'operation') {
+                    $closureParams[] = $this->evaluationOperation;
+                } elseif ($paramName === 'state') {
+                    // Get the current state/value of the field
+                    $closureParams[] = method_exists($this, 'getState') ? $this->getState() : null;
                 } elseif ($param->isDefaultValueAvailable()) {
                     $closureParams[] = $param->getDefaultValue();
                 } else {
