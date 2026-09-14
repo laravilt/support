@@ -4,6 +4,7 @@ namespace Laravilt\Support\LaraviltCore\Http\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;
+use Illuminate\Support\MessageBag;
 use Laravilt\Support\LaraviltCore\LaraviltCore;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -44,7 +45,7 @@ class LaraviltMiddleware
                     ],
                     'shared' => [],
                     'flash' => [],
-                    'errors' => session()->get('errors', new \Illuminate\Support\MessageBag)->toArray(),
+                    'errors' => session()->get('errors', new MessageBag)->toArray(),
                     'toasts' => [],
                     'persistentLayout' => null,
                     'modal' => false,

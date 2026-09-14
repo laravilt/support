@@ -2,8 +2,11 @@
 
 namespace Laravilt\Support\LaraviltCore;
 
+use Illuminate\Contracts\Auth\Factory;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\ServiceProvider;
+use Laravilt\Auth\AuthManager;
 use Laravilt\Support\LaraviltCore\Blade\Components\Component;
 use Laravilt\Support\LaraviltCore\Blade\Components\Link;
 use Laravilt\Support\LaraviltCore\Blade\Components\Modal;
@@ -27,11 +30,11 @@ class LaraviltServiceProvider extends ServiceProvider
         });
 
         // Register AuthManager singleton
-        if (class_exists(\Laravilt\Auth\AuthManager::class)) {
+        if (class_exists(AuthManager::class)) {
             $this->app->singleton('laravilt.auth', function ($app) {
-                return new \Laravilt\Auth\AuthManager(
-                    $app->make(\Illuminate\Contracts\Auth\Factory::class),
-                    $app->make(\Illuminate\Http\Request::class)
+                return new AuthManager(
+                    $app->make(Factory::class),
+                    $app->make(Request::class)
                 );
             });
         }

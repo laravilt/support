@@ -17,6 +17,7 @@ use Laravilt\Support\Concerns\HasVisibility;
 use Laravilt\Support\Concerns\InteractsWithState;
 use Laravilt\Support\Contracts\Buildable;
 use Laravilt\Support\Contracts\Serializable;
+use Laravilt\Support\Utilities\Translator;
 
 /**
  * Base Component Class
@@ -189,7 +190,7 @@ abstract class Component implements Arrayable, Buildable, Jsonable, Serializable
     /** Check if current locale is RTL. */
     protected function isRTL(): bool
     {
-        return \Laravilt\Support\Utilities\Translator::isRTL();
+        return Translator::isRTL();
     }
 
     /** Get current locale. */

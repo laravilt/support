@@ -4,6 +4,7 @@ namespace Laravilt\Support\Facades;
 
 use Illuminate\Support\Facades\Facade;
 use Laravilt\Auth\AuthManager;
+use Laravilt\Support\LaraviltCore\LaraviltCore;
 
 /**
  * Laravilt Facade
@@ -16,7 +17,7 @@ use Laravilt\Auth\AuthManager;
  * @method static bool isLaraviltRequest()
  * @method static bool wantsJson()
  *
- * @see \Laravilt\Support\LaraviltCore\LaraviltCore
+ * @see LaraviltCore
  */
 class Laravilt extends Facade
 {

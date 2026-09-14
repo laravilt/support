@@ -3,6 +3,7 @@
 namespace Laravilt\Support\Concerns;
 
 use Closure;
+use Illuminate\Support\Str;
 
 /**
  * HasLabel Trait
@@ -56,6 +57,6 @@ trait HasLabel
         $name = str_replace(['_', '-'], ' ', $name);
 
         // Convert to title case
-        return \Illuminate\Support\Str::title($name);
+        return Str::title($name);
     }
 }
