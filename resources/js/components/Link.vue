@@ -11,6 +11,11 @@ const props = defineProps({
 });
 
 function handleClick(event) {
+    // Leave modified and non-primary clicks (new tab, new window, download) to the browser
+    if (event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) {
+        return;
+    }
+
     // Prevent default link behavior
     event.preventDefault();
     event.stopPropagation();

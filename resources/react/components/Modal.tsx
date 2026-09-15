@@ -72,7 +72,18 @@ function getIconComponent(icon?: string): ComponentType<{ className?: string }> 
     return all[icon] || LucideIcons.Circle;
 }
 
-export default function Modal({ open, title, description, icon, iconColor, onUpdateOpen, onClose, children, footer }: ModalProps) {
+export default function Modal({
+    open,
+    title,
+    description,
+    closeOnBackdrop,
+    icon,
+    iconColor,
+    onUpdateOpen,
+    onClose,
+    children,
+    footer,
+}: ModalProps) {
     const IconComponent = getIconComponent(icon);
 
     const iconColorClasses = iconColor ? iconColorMap[iconColor] || 'text-muted-foreground' : 'text-muted-foreground';
@@ -87,7 +98,14 @@ export default function Modal({ open, title, description, icon, iconColor, onUpd
 
     return (
         <Dialog open={open} onOpenChange={handleOpenChange}>
-            <DialogContent>
+            <DialogContent
+                // Keep the dialog open on outside clicks when closeOnBackdrop is explicitly false (Escape and the close button still work)
+                onInteractOutside={(event) => {
+                    if (closeOnBackdrop === false) {
+                        event.preventDefault();
+                    }
+                }}
+            >
                 {(title || description || IconComponent) && (
                     <DialogHeader>
                         {IconComponent && (

@@ -23,9 +23,10 @@ export default {
         // Set the default options
         options = options || {};
         options.max_keep_alive = has(options, "max_keep_alive") ? options.max_keep_alive : 10;
-        options.prefix = has(options, "prefix") ? options.prefix : "Laravilt";
+        // Fall back to the defaults for null or undefined, not only for missing keys
+        options.prefix = options.prefix ?? "Laravilt";
         options.transform_anchors = has(options, "transform_anchors") ? options.transform_anchors : false;
-        options.link_component = has(options, "link_component") ? options.link_component : "Link";
+        options.link_component = options.link_component ?? "Link";
         options.progress_bar = has(options, "progress_bar") ? options.progress_bar : false;
         options.components = has(options, "components") ? options.components : {};
         options.view_transitions = has(options, "view_transitions") ? options.view_transitions : false;

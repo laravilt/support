@@ -506,7 +506,11 @@ function storeInLocalStorage(key, data) {
 
     allData[key] = data;
 
-    localStorage.setItem("laravilt", JSON.stringify(allData));
+    try {
+        localStorage.setItem("laravilt", JSON.stringify(allData));
+    } catch {
+        // Keep the in-memory state when persistence is unavailable (quota, blocked storage, unserializable value).
+    }
 }
 
 /**
@@ -531,7 +535,11 @@ function forget(key, useLocalStorage) {
 
         delete allData[key];
 
-        localStorage.setItem("laravilt", JSON.stringify(allData));
+        try {
+            localStorage.setItem("laravilt", JSON.stringify(allData));
+        } catch {
+            // Still forget the in-memory copy below when persistence is unavailable.
+        }
     }
 
     delete rememberedData.value[key];
