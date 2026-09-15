@@ -11,7 +11,7 @@
 </template>
 
 <script setup>
-import { onMounted, ref } from "vue";
+import { onBeforeUnmount, onMounted, ref } from "vue";
 
 const props = defineProps({
     html: {
@@ -22,6 +22,8 @@ const props = defineProps({
 
 const emit = defineEmits(["close"]);
 const iframeElement = ref(null);
+// The body overflow in place before the overlay locked scrolling.
+let previousOverflow = "";
 
 /**
  * Creates a new HTML element with an iframe holding the HTML from the props.
@@ -31,6 +33,7 @@ function create() {
     page.innerHTML = props.html;
     page.querySelectorAll("a").forEach((a) => a.setAttribute("target", "_top"));
 
+    previousOverflow = document.body.style.overflow;
     document.body.style.overflow = "hidden";
 
     const iframe = iframeElement.value;
@@ -59,10 +62,16 @@ function keyDownListener($event) {
  * Restore the body overflow style and emit the 'close' event.
  */
 function hide() {
-    document.body.style.overflow = "visible";
+    document.body.style.overflow = previousOverflow;
     document.removeEventListener("keydown", keyDownListener);
     emit("close");
 }
 
 onMounted(() => create());
+
+onBeforeUnmount(() => {
+    document.removeEventListener("keydown", keyDownListener);
+    // Don't leave the page scroll-locked when unmounted without hide()
+    document.body.style.overflow = previousOverflow;
+});
 </script>

@@ -11,6 +11,18 @@ const props = defineProps({
 });
 
 function handleClick(event) {
+    // Leave modified and non-primary clicks (new tab, new window, download) to the browser
+    if (event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) {
+        return;
+    }
+
+    // Leave downloads and links targeting another browsing context (forwarded attrs) to the browser
+    const anchor = event.currentTarget;
+    const target = anchor?.getAttribute('target');
+    if (anchor?.hasAttribute('download') || (target && target !== '_self')) {
+        return;
+    }
+
     // Prevent default link behavior
     event.preventDefault();
     event.stopPropagation();

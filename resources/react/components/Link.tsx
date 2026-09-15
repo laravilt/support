@@ -17,6 +17,13 @@ export default function Link({ href, method = 'GET', children }: LinkProps) {
             return;
         }
 
+        // Leave downloads and links targeting another browsing context to the browser
+        const anchor = event.currentTarget;
+        const target = anchor.getAttribute('target');
+        if (anchor.hasAttribute('download') || (target && target !== '_self')) {
+            return;
+        }
+
         // Prevent default link behavior
         event.preventDefault();
         event.stopPropagation();

@@ -480,6 +480,13 @@ function onServerError(html) {
 const rememberedData = ref({});
 
 /**
+ * Local-storage updates that could not be persisted, keyed by name: `{ deleted: false, data }`
+ * for a failed remember, `{ deleted: true }` (tombstone) for a failed forget. `restore` prefers
+ * this state over the stale persisted value until a later write for the key succeeds.
+ */
+const unpersistedData = new Map();
+
+/**
  * Stores the given data in the remember-object, and
  * optionally in the browser's local storage.
  */
@@ -487,7 +494,7 @@ function remember(key, data, useLocalStorage) {
     rememberedData.value[key] = data;
 
     if (useLocalStorage) {
-        storeInLocalStorage(key, data);
+        trackPersistence(key, storeInLocalStorage(key, data), { deleted: false, data });
     }
 }
 
@@ -495,18 +502,48 @@ function remember(key, data, useLocalStorage) {
  * Helper method to retrieve the remembered data from the browser's local storage.
  */
 function getLaraviltDataFromLocalStorage() {
-    return JSON.parse(localStorage.getItem("laravilt") || "{}") || {};
+    try {
+        return JSON.parse(localStorage.getItem("laravilt") || "{}") || {};
+    } catch {
+        // Blocked storage or corrupt JSON: behave as if nothing was persisted.
+        return {};
+    }
 }
 
 /**
- * Stores the given data in the browser's local storage.
+ * Writes the whole laravilt object to the browser's local storage. Returns whether it succeeded.
+ */
+function writeLaraviltDataToLocalStorage(allData) {
+    try {
+        localStorage.setItem("laravilt", JSON.stringify(allData));
+
+        return true;
+    } catch {
+        // Persistence unavailable (quota, blocked storage, unserializable value).
+        return false;
+    }
+}
+
+/**
+ * Clears the failed-write state for a key once persisted, or records it when the write failed.
+ */
+function trackPersistence(key, persisted, state) {
+    if (persisted) {
+        unpersistedData.delete(key);
+    } else {
+        unpersistedData.set(key, state);
+    }
+}
+
+/**
+ * Stores the given data in the browser's local storage. Returns whether it was persisted.
  */
 function storeInLocalStorage(key, data) {
     let allData = getLaraviltDataFromLocalStorage();
 
     allData[key] = data;
 
-    localStorage.setItem("laravilt", JSON.stringify(allData));
+    return writeLaraviltDataToLocalStorage(allData);
 }
 
 /**
@@ -514,6 +551,13 @@ function storeInLocalStorage(key, data) {
  */
 function restore(key, useLocalStorage) {
     if (useLocalStorage) {
+        // A failed write wins over the stale persisted value
+        if (unpersistedData.has(key)) {
+            const state = unpersistedData.get(key);
+
+            return state.deleted ? undefined : state.data;
+        }
+
         const laraviltData = getLaraviltDataFromLocalStorage();
 
         return laraviltData[key];
@@ -531,7 +575,9 @@ function forget(key, useLocalStorage) {
 
         delete allData[key];
 
-        localStorage.setItem("laravilt", JSON.stringify(allData));
+        // On failure, leave a tombstone so restore() does not resurrect the persisted value.
+        // The in-memory copy is still forgotten below.
+        trackPersistence(key, writeLaraviltDataToLocalStorage(allData), { deleted: true });
     }
 
     delete rememberedData.value[key];

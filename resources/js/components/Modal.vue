@@ -34,6 +34,13 @@ const isOpen = computed({
     },
 });
 
+// Keep the dialog open on outside clicks when closeOnBackdrop is explicitly false (Escape and the close button still work)
+const onInteractOutside = (event: Event) => {
+    if (props.closeOnBackdrop === false) {
+        event.preventDefault();
+    }
+};
+
 // Get Lucide icon component from icon name
 const iconComponent = computed<Component | null>(() => {
     if (!props.icon) return null;
@@ -83,7 +90,7 @@ const iconColorClasses = computed(() => {
 
 <template>
     <Dialog v-model:open="isOpen">
-        <DialogContent>
+        <DialogContent @interact-outside="onInteractOutside">
             <DialogHeader v-if="title || description || iconComponent">
                 <div v-if="iconComponent" class="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-muted mb-4">
                     <component :is="iconComponent" :class="['h-6 w-6', iconColorClasses]" />
