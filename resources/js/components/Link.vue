@@ -16,6 +16,13 @@ function handleClick(event) {
         return;
     }
 
+    // Leave downloads and links targeting another browsing context (forwarded attrs) to the browser
+    const anchor = event.currentTarget;
+    const target = anchor?.getAttribute('target');
+    if (anchor?.hasAttribute('download') || (target && target !== '_self')) {
+        return;
+    }
+
     // Prevent default link behavior
     event.preventDefault();
     event.stopPropagation();
