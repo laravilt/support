@@ -73,7 +73,11 @@ export function useLocalStorage<T>(key: string, initialValue: T): [T, (value: T 
                 const resolved = typeof next === 'function' ? (next as (previous: T) => T)(previous) : next;
 
                 if (typeof window !== 'undefined') {
-                    window.localStorage.setItem(key, JSON.stringify(resolved));
+                    try {
+                        window.localStorage.setItem(key, JSON.stringify(resolved));
+                    } catch {
+                        // Keep the in-memory state when persistence is unavailable (quota, blocked storage, unserializable value).
+                    }
                 }
 
                 return resolved;

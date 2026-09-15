@@ -12,6 +12,11 @@ export interface LinkProps {
  */
 export default function Link({ href, method = 'GET', children }: LinkProps) {
     function handleClick(event: MouseEvent<HTMLAnchorElement>) {
+        // Leave modified and non-primary clicks (new tab, new window, download) to the browser
+        if (event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) {
+            return;
+        }
+
         // Prevent default link behavior
         event.preventDefault();
         event.stopPropagation();

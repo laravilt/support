@@ -33,8 +33,8 @@ export interface LaraviltCoreOptions {
  * (`LaraviltComponentRenderer`, `LaraviltLink`, `LaraviltModal`, `LaraviltRender`, `LaraviltServerError`, `Link`).
  */
 export function register(options: LaraviltCoreOptions = {}): void {
-    const prefix = 'prefix' in options ? options.prefix : 'Laravilt';
-    const linkComponent = 'link_component' in options ? options.link_component : 'Link';
+    const prefix = options.prefix ?? 'Laravilt';
+    const linkComponent = options.link_component ?? 'Link';
 
     registerComponents({
         [`${prefix}ComponentRenderer`]: ComponentRenderer,

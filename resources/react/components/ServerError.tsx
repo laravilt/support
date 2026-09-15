@@ -14,12 +14,14 @@ export default function ServerError({ html, onClose }: ServerErrorProps) {
     const iframeElement = useRef<HTMLIFrameElement>(null);
     const latestOnClose = useLatest(onClose);
     const listenerRef = useRef<((event: KeyboardEvent) => void) | null>(null);
+    // The body overflow in place before the overlay locked scrolling.
+    const previousOverflow = useRef('');
 
     /**
      * Restore the body overflow style and emit the 'close' event.
      */
     const hide = () => {
-        document.body.style.overflow = 'visible';
+        document.body.style.overflow = previousOverflow.current;
 
         if (listenerRef.current) {
             document.removeEventListener('keydown', listenerRef.current);
@@ -38,6 +40,7 @@ export default function ServerError({ html, onClose }: ServerErrorProps) {
         page.innerHTML = html;
         page.querySelectorAll('a').forEach((a) => a.setAttribute('target', '_top'));
 
+        previousOverflow.current = document.body.style.overflow;
         document.body.style.overflow = 'hidden';
 
         const iframe = iframeElement.current;
@@ -64,6 +67,8 @@ export default function ServerError({ html, onClose }: ServerErrorProps) {
 
         return () => {
             document.removeEventListener('keydown', keyDownListener);
+            // Don't leave the page scroll-locked when unmounted without hide()
+            document.body.style.overflow = previousOverflow.current;
         };
         // The Vue component only builds the iframe on mount.
         // eslint-disable-next-line react-hooks/exhaustive-deps

@@ -35,7 +35,17 @@ class Frontend
             return self::VUE;
         }
 
-        $json = json_decode((string) file_get_contents($path), true);
+        try {
+            $contents = file_get_contents($path);
+        } catch (\ErrorException) {
+            return self::VUE;
+        }
+
+        if ($contents === false) {
+            return self::VUE;
+        }
+
+        $json = json_decode($contents, true);
 
         if (! is_array($json)) {
             return self::VUE;
